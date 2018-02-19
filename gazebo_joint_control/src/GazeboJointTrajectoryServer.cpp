@@ -128,6 +128,10 @@ void GazeboJointTrajectoryServer::Load(physics::ModelPtr _parent, sdf::ElementPt
     {
 
         physics::JointPtr joint = _parent->GetJoint(*it);
+
+        if (joint->HasType(physics::Joint::FIXED_JOINT))
+            continue;
+
         if (!joint.get())
         {
             ROS_FATAL_STREAM("Joint name " << *it << " not found as robot joint");
@@ -333,6 +337,9 @@ void GazeboJointTrajectoryServer::readJointStates(std::vector<float>& currAngles
     {
         physics::JointPtr joint = *it;
         std::string jointName = joint->GetName();
+
+        if (joint->HasType(physics::Joint::FIXED_JOINT))
+            continue;
 
         // ROS_INFO("Getting %s",jointName.c_str());
         int armJointNumber = trajectory_action_server->getArmNamesMgr().armJointNumber(jointName);

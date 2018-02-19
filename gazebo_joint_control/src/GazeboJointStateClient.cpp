@@ -128,6 +128,10 @@ void GazeboJointStateClient::Load(physics::ModelPtr _parent, sdf::ElementPtr _sd
         // ROS_INFO_STREAM("Local joint name: '"<<*it<<"'");
 
         physics::JointPtr joint = _parent->GetJoint(*it);
+
+        if (joint->HasType(physics::Joint::FIXED_JOINT))
+            continue;
+
         if (!joint.get())
         {
             ROS_FATAL_STREAM("Joint name " << *it << " not found as robot joint");

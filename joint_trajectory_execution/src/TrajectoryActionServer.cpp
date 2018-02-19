@@ -337,7 +337,7 @@ bool TrajectoryActionServer::initServer()
 }
 
 
-void TrajectoryActionServer::cancelCallback(GoalHandle& goal)
+void TrajectoryActionServer::cancelCallback(GoalHandle goal)
 {
   ROS_INFO("TrajectoryActionServer: Received action cancel request");
   goalLock.lock();
@@ -349,7 +349,7 @@ void TrajectoryActionServer::cancelCallback(GoalHandle& goal)
 
 
 
-void TrajectoryActionServer::actionCallback(GoalHandle& goal)
+void TrajectoryActionServer::actionCallback(GoalHandle goal)
 {
   if (!initialized)
   {

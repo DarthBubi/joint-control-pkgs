@@ -169,7 +169,10 @@ void GazeboJointStatePublisher::readJointStates(sensor_msgs::JointState& js)
         physics::JointPtr joint = *it;
         std::string _jointName = joint->GetName();
 
-        // ROS_INFO("Getting %s",_jointName.c_str());
+        if (joint->HasType(physics::Joint::FIXED_JOINT))
+            continue;
+
+        ROS_DEBUG("Getting %s",_jointName.c_str());
 
         int armJointNumber = joints->armJointNumber(_jointName);
         int gripperJointNumber = joints->gripperJointNumber(_jointName);
@@ -199,6 +202,7 @@ void GazeboJointStatePublisher::readJointStates(sensor_msgs::JointState& js)
         // ROS_INFO("Joint %s (%u) %f %f %f", _jointName.c_str(), i, currAngle, currEff, currVel);
 
         bool isRobotJoint = (gripperJointNumber >= 0) || (armJointNumber >= 0);
+        // bool isRobotJoint = (armJointNumber >= 0);
 
         if (publishAllJoints || isRobotJoint)
         {
